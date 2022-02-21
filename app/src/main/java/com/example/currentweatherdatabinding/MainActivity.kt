@@ -2,42 +2,94 @@ package com.example.currentweatherdatabinding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.databinding.DataBindingUtil
+import com.example.currentweatherdatabinding.databinding.ActivityMainBinding
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import kotlinx.coroutines.*
 import java.io.InputStream
+import java.io.InputStreamReader
 import java.net.URL
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+
+    private lateinit var gson: Gson
+    private lateinit var citiesRaw: Array<City>
+    private lateinit var city: City
+
+    lateinit var binding: ActivityMainBinding
+    lateinit var temp: CityTemperature
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*
-        TODO: реализовать отображение погоды в текстовых полях и картинках
-        картинками отобразить облачность и направление ветра
-        использовать data binding, библиотеки уже подключены
-         */
-    }
-    suspend fun loadWeather() {
-        val API_KEY = "" // TODO: ключ загрузить из строковых ресурсов
-        // TODO: в строку подставлять API_KEY и город (выбирается из списка или вводится в поле)
-        val weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=Irkutsk&appid=d6843ab8ee963f5d372296dfff62aed7&units=metric";
-        val stream = URL(weatherURL).getContent() as InputStream
-        // JSON отдаётся одной строкой,
-        val data = Scanner(stream).nextLine()
-        // TODO: предусмотреть обработку ошибок (нет сети, пустой ответ)
-        Log.d("mytag", data)
-    }
-    public fun onClick(v: View) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        // Используем IO-диспетчер вместо Main (основного потока)
-        GlobalScope.launch (Dispatchers.IO) {
+        this.temp = CityTemperature(name = getString(R.string.select_city))
+        binding.city = this.temp
+
+        val spinner = findViewById<Spinner>(R.id.spinner)
+
+        gson = Gson()
+        val citiesStream = resources.openRawResource(R.raw.russian_cities)
+        citiesRaw = gson.fromJson(InputStreamReader(citiesStream), Cities::class.java).cities
+
+        val cityNames: ArrayList<String> = ArrayList()
+        for (city in citiesRaw) {
+            cityNames.add(city.name)
+        }
+
+        val adapter = ArrayAdapter(
+            this,
+            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            cityNames
+        )
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = this
+    }
+
+    suspend fun loadWeather() {
+        try {
+            val weatherURL =
+                "https://api.openweathermap.org/data/2.5/weather?lat=${city.coords.lat}&lon=${city.coords.lon}&appid=${BuildConfig.API_KEY_OPEN_WEATHER_MAP}&units=metric"
+            val stream = URL(weatherURL).content as InputStream
+
+            val data = Scanner(stream).nextLine()
+
+            val parser = JsonParser.parseString(data).asJsonObject
+
+            this.temp.temperature = parser.get("main").asJsonObject.get("temp").toString().toFloat()
+            this.temp.windSpeed = parser.get("wind").asJsonObject.get("speed").toString().toFloat()
+            this.binding.city = this.temp
+
+
+        } catch (e: Exception) {
+            this.temp.name = getString(R.string.error_service)
+            this.binding.city = this.temp
+        }
+    }
+
+    @DelicateCoroutinesApi
+    fun onClick(v: View) {
+        GlobalScope.launch(Dispatchers.IO) {
             loadWeather()
         }
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val cityIndex = position
+        city = citiesRaw[cityIndex]
+        this.temp.name = city.name
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        TODO("Not yet implemented")
+    }
+
 }

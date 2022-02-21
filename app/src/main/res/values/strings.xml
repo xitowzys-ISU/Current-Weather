@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">CurrentWeatherDataBinding</string>
+    <string name="app_name">Прогноз погоды</string>
+    <string name="get_weather">Обновить погоды</string>
+    <string name="temp">Температура: </string>
+    <string name="list_city">Список городов</string>
+    <string name="wind_speed">Скорость ветра: </string>
+    <string name="select_city">Выберите город</string>
+    <string name="error_service">Ошибка. Попробуйте снова</string>
 </resources>
