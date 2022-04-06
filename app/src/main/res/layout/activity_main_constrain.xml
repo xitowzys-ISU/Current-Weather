@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#5363bd">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
+            app:layout_constraintEnd_toStartOf="@+id/nameTextView"
+            app:layout_constraintTop_toTopOf="@+id/nameTextView"
+            app:srcCompat="@drawable/ic_city" />
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@{city.name}"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toStartOf="@+id/windTextView"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Город" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tempTextView"
+            app:layout_constraintEnd_toStartOf="@+id/tempTextView"
+            app:layout_constraintTop_toTopOf="@+id/tempTextView"
+            app:srcCompat="@drawable/ic_temp" />
+
+        <TextView
+            android:id="@+id/tempTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@{@string/temp + String.valueOf(city.temperature) + '\u2103'}"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/nameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/nameTextView"
+            tools:text="Температура: -32" />
+
+
+        <TextView
+            android:id="@+id/windTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="@{@string/wind_speed + String.valueOf(city.windSpeed)}"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nameTextView"
+            tools:text="Скорость ветра: 4" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#C6E5FF"
+            android:onClick="onClick"
+            android:text="@string/get_weather"
+            app:layout_constraintStart_toStartOf="@+id/tempTextView"
+            app:layout_constraintTop_toBottomOf="@+id/tempTextView" />
+
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/listTextView"
+            app:layout_constraintEnd_toStartOf="@+id/listTextView"
+            app:layout_constraintTop_toTopOf="@+id/listTextView"
+            app:srcCompat="@drawable/ic_list" />
+
+        <TextView
+            android:id="@+id/listTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:text="@string/list_city"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/windTextView"
+            app:layout_constraintStart_toStartOf="@+id/listTextView"
+            app:layout_constraintTop_toBottomOf="@+id/listTextView"
+            tools:listheader=" " />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <data>
+
+        <variable
+            name="city"
+            type="com.example.currentweatherdatabinding.CityTemperature" />
+
+        <import type="android.graphics.Color" />
+
+        <import type="android.view.View" />
+    </data>
+
+</layout>
