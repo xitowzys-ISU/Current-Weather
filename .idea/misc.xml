@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_temp.xml" value="0.198" />
         <entry key="app/src/main/res/drawable/spinner_border.xml" value="0.261" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.30303030303030304" />
+        <entry key="app/src/main/res/layout/activity_main_constrain.xml" value="0.2719298245614035" />
+        <entry key="app/src/main/res/layout/spinner_dropdown.xml" value="0.2328125" />
+        <entry key="app/src/main/res/layout/spinner_list.xml" value="0.2328125" />
       </map>
     </option>
   </component>

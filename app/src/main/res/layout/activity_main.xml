@@ -7,40 +7,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".MainActivity"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/nameTextView"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            android:gravity="center"
             android:text="@{city.name}"
-            tools:text="Город"
-            android:gravity="center"
-            android:textSize="28sp" />
+            android:textSize="28sp"
+            tools:text="Город" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tempTextView"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{@string/temp + String.valueOf(city.temperature)}"
-            tools:text="Температура: -32"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:text="Температура: -32" />
 
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/windTextView"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="30dp"
+            android:gravity="center"
             android:text="@{@string/wind_speed + String.valueOf(city.windSpeed)}"
             android:textSize="14sp"
-            tools:text="Скорость ветра: 4"/>
+            tools:text="Скорость ветра: 4" />
 
         <Button
             android:id="@+id/button"
@@ -54,8 +54,8 @@
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/list_city"
             android:textSize="20sp" />
 
@@ -63,15 +63,18 @@
             android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listheader=" "
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            tools:listheader=" " />
     </LinearLayout>
 
     <data>
+
         <variable
             name="city"
             type="com.example.currentweatherdatabinding.CityTemperature" />
+
         <import type="android.graphics.Color" />
+
         <import type="android.view.View" />
     </data>
 </layout>

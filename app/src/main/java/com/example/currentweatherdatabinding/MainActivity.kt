@@ -7,7 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.databinding.DataBindingUtil
-import com.example.currentweatherdatabinding.databinding.ActivityMainBinding
+import com.example.currentweatherdatabinding.databinding.ActivityMainConstrainBinding
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import kotlinx.coroutines.*
@@ -22,14 +22,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var citiesRaw: Array<City>
     private lateinit var city: City
 
-    lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainConstrainBinding
     lateinit var temp: CityTemperature
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_constrain)
 
         this.temp = CityTemperature(name = getString(R.string.select_city))
         binding.city = this.temp
@@ -47,9 +46,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val adapter = ArrayAdapter(
             this,
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            R.layout.color_spinner,
             cityNames
         )
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
     }
